@@ -27,7 +27,7 @@ int main()
     }
     sortList(linked_list, sizeof(dataset)/sizeof(int));
     deleteNode(21, linked_list);
-    while(linked_list != NULL)
+    while(linked_list->next != NULL)
     {
         printf("%d\n", linked_list->data);
         linked_list = linked_list->next;
