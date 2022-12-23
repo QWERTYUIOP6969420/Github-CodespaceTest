@@ -36,8 +36,8 @@ int main()
 
 void createNode(int val, Node *list_to_add)
 {
-    list_to_add->data = val;
     list_to_add->next = malloc(sizeof(Node));
+    list_to_add->data = val;
 }
 
 void deleteNode(int val, Node *list_to_copy)
