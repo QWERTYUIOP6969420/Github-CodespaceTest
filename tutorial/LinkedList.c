@@ -7,55 +7,47 @@ typedef struct Node {
     struct Node *next;
 } Node;
 
-Node *createNode(int val);
-void deleteNode(int val, Node *list_to_copy, int list_length);
+void createNode(int val, Node *list_to_add);
+void deleteNode(int val, Node *list_to_copy);
 Node *sortList(Node *list_to_sort, int list_length);
 int *quickSort(int *array, int low, int high);
 int partition(int *array, int low, int high);
 
 int main()
 { 
-    int dataset[] = {305, 170, 1057, 230, 21, 1};
+    int dataset[] = {305, 170, 1057, 230, 21, 1, 0};
     struct Node *linked_list = malloc(sizeof(Node));
     struct Node **Plinked_list = &linked_list;
     linked_list->next = malloc(sizeof(Node));
-    int i = 0;
-    int list_length = 0;
     struct Node *linked_list_copy = *Plinked_list;
-    while(i < (sizeof(dataset)/sizeof(int))){
-        linked_list_copy = createNode(dataset[i]);
+    for(int i = 0; i < sizeof(dataset)/sizeof(int); i++)
+    {
+        createNode(dataset[i], linked_list_copy);
         linked_list_copy = linked_list_copy->next;
-        i++;
     }
-    deleteNode(21, linked_list, sizeof(dataset)/sizeof(int));
-    //sortList(linked_list, sizeof(dataset)/sizeof(int));
-    while(linked_list->next != NULL)
+    sortList(linked_list, sizeof(dataset)/sizeof(int));
+    deleteNode(21, linked_list);
+    while(linked_list != NULL)
     {
         printf("%d\n", linked_list->data);
         linked_list = linked_list->next;
     }
-    
 }
 
-Node *createNode(int val)
+void createNode(int val, Node *list_to_add)
 {
-    struct Node *newNode = malloc(sizeof(Node));
-    newNode->data = val;
-    newNode->next = malloc(sizeof(Node));
-    return newNode;
+    list_to_add->data = val;
+    list_to_add->next = malloc(sizeof(Node));
 }
 
-void deleteNode(int val, Node *list_to_copy, int list_length)
+void deleteNode(int val, Node *list_to_copy)
 {
-    if(list_to_copy->data != val && list_to_copy != NULL)
+    while(list_to_copy->data != val)
     {
         list_to_copy = list_to_copy->next;
-        deleteNode(val, list_to_copy, list_length);
-    } 
-    else if(list_to_copy->data == val){
-        list_to_copy->data = list_to_copy->next->data;
-        list_to_copy->next = list_to_copy->next->next;
     }
+    list_to_copy->data = list_to_copy->next->data;
+    list_to_copy->next = list_to_copy->next->next;
 }
 
 Node *sortList(Node *list_to_sort, int list_length)
@@ -69,6 +61,7 @@ Node *sortList(Node *list_to_sort, int list_length)
         list_to_sort_copy = list_to_sort_copy->next;
         y++;
     }
+    free(list_to_sort_copy);
     dataset = quickSort(dataset, 0, list_length - 1);
     struct Node *list_to_sort_copy2 = *Plist_to_sort;
     for(int i = 0; i < list_length; i++)
@@ -76,6 +69,7 @@ Node *sortList(Node *list_to_sort, int list_length)
         list_to_sort_copy2->data = dataset[i];
         list_to_sort_copy2 = list_to_sort_copy2->next;
     }
+    free(dataset);
     return list_to_sort;
 }
 
