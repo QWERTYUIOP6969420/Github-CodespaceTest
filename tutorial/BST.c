@@ -11,7 +11,7 @@ void assignNodeValue(int val, TreeNode *node_to_assign);
 void createLeftNode(int val, TreeNode *tree_to_add);
 void createRightNode(int val, TreeNode *tree_to_add);
 void printBinaryTree(TreeNode *tree);
-void arrayToTree(int *array, int index, TreeNode *tree_to_make);
+void arrayToTree(int *array, int index, TreeNode *tree_to_make, int array_size);
 
 int main()
 {
@@ -24,7 +24,7 @@ int main()
     // createRightNode(35, binary_search_tree_copy);
     // binary_search_tree_copy = binary_search_tree_copy->left;
     // createLeftNode(5, binary_search_tree_copy);
-    arrayToTree(dataset, 1, binary_search_tree_copy);
+    arrayToTree(dataset, 1, binary_search_tree_copy, sizeof(dataset)/sizeof(dataset[0]));
     printBinaryTree(binary_search_tree);
 }
 
@@ -73,16 +73,14 @@ void assignNodeValue(int val, TreeNode *node_to_assign)
     node_to_assign->data = val;
 }
 
-void arrayToTree(int *array, int index, TreeNode *tree_to_make)
+void arrayToTree(int *array, int index, TreeNode *tree_to_make, int array_size)
 {
-    if(index < sizeof(array)/sizeof(array[0]))
+    if(index < array_size - 1)
     {
         createLeftNode(array[index], tree_to_make);
         index++;
         createRightNode(array[index], tree_to_make);
-        arrayToTree(array, index, tree_to_make->left);
-        arrayToTree(array, index, tree_to_make->right);
-    } else {
-        printf("Command finished\n");
+        arrayToTree(array, index + 1, tree_to_make->left, array_size);
+        arrayToTree(array, index + 3, tree_to_make->right, array_size);
     }
 }
