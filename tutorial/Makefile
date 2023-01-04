@@ -3,3 +3,6 @@ LinkedList: LinkedList.c
 
 BST: BST.c
 	gcc BST.c -o BST -g
+
+test: test.c
+	gcc test.c -o test -g

@@ -7,6 +7,7 @@ typedef struct TreeNode {
     struct TreeNode *left, *right;
 } TreeNode;
 
+int *divideArray(int *array, int array_size);
 void assignNodeValue(int val, TreeNode *node_to_assign);
 void createLeftNode(int val, TreeNode *tree_to_add);
 void createRightNode(int val, TreeNode *tree_to_add);
@@ -75,6 +76,7 @@ void assignNodeValue(int val, TreeNode *node_to_assign)
 
 void arrayToTree(int *array, int index, TreeNode *tree_to_make, int array_size)
 {
+    int *array_indexes = divideArray(array, array_size);
     if(index < array_size - 1)
     {
         createLeftNode(array[index], tree_to_make);
@@ -84,3 +86,33 @@ void arrayToTree(int *array, int index, TreeNode *tree_to_make, int array_size)
         arrayToTree(array, index + 3, tree_to_make->right, array_size);
     }
 }
+
+int *divideArray(int *array, int array_size)
+{
+    int y = 0;
+    int *return_array = calloc(y + 1, sizeof(int));
+    for(int i = 0; i < array_size; i++)
+    {
+        if(i == pow(2, y))
+        {
+            y++;
+            return_array = calloc(1, sizeof(int));
+            return_array[i] = i;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+/*Pseudocode for creating a Tree
+1. Find indexes that separate array into length of the powers of 2 
+2. Use those indexes to separate layers by powers of two and inset grousp of two into the tree
+*/
